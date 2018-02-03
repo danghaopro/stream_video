@@ -67,36 +67,49 @@
 /* 0 */
 /***/ (function(module, exports, __webpack_require__) {
 
-const openCamera = __webpack_require__(1);
+const openStream = __webpack_require__(1);
 
-openCamera();
+openStream();
 
 console.log('Xin chao');
 
 
 /***/ }),
 /* 1 */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
-function openCamera() {
+const playVideo = __webpack_require__(2);
+
+function openStream() {
   const constrain = {
     audio: false,
     video: true
   };
   navigator.mediaDevices.getUserMedia(constrain)
     .then((stream) => {
-      const video = document.getElementById('localStream');
-      video.srcObject = stream;
-      video.onloadedmetadata = function() {
-        video.play();
-      }
+      playVideo(stream, 'localStream');
     })
     .catch((err) => {
       console.log(err);
     });
 }
 
-module.exports = openCamera;
+module.exports = openStream;
+
+
+/***/ }),
+/* 2 */
+/***/ (function(module, exports) {
+
+function playVideo(stream, idVideo) {
+  const video = document.getElementById(idVideo);
+  video.srcObject = stream;
+  video.onloadedmetadata = function() {
+    video.play();
+  }
+}
+
+module.exports = playVideo;
 
 
 /***/ })
